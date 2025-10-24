@@ -2,6 +2,7 @@ package viktor.vasileski.eventsWebApplication.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -40,4 +41,10 @@ public class EventsController {
     public Event addReservation(@PathVariable UUID eventId, @AuthenticationPrincipal User currentAuthenticatedUser){
         return eventsService.addReservation(eventId, currentAuthenticatedUser);
     }
+
+    @GetMapping
+    public Page<Event> findAll(@RequestParam(defaultValue = "0")int page){
+        return eventsService.findAll(page);
+    }
+    
 }

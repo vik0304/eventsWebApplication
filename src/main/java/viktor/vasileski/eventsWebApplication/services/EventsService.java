@@ -2,6 +2,9 @@ package viktor.vasileski.eventsWebApplication.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import viktor.vasileski.eventsWebApplication.entities.Event;
 import viktor.vasileski.eventsWebApplication.entities.User;
@@ -53,5 +56,27 @@ public class EventsService {
         Event savedEvent = eventRepository.save(foundEvent);
         log.info("Il partecipante {} con id {} è stato aggiunto all'evento {}", user.getName(), user.getId(), savedEvent.getTitle());
         return savedEvent;
+    }
+
+    public Page<Event> findAll(int pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber, 25);
+        return eventRepository.findAll(pageable);
+    }
+
+    public Event findByIdAndUpdate(UUID eventId, EventDTO payload){
+        Event found = findById(eventId);
+        found.setTitle(payload.title());
+        found.setDescription(payload.description());
+        found.setDate(payload.date());
+        found.setPlace(payload.place());
+        found.setNMax(payload.nMax());
+        Event modifiedEvent = this.eventRepository.save(found);
+        log.info("L'evento {} è stato inserito con successo", modifiedEvent.getTitle());
+        return modifiedEvent;
+    }
+
+    public void findByIdAndDelete(UUID eventId){
+        Event found = findById(eventId);
+        eventRepository.delete(found);
     }
 }
