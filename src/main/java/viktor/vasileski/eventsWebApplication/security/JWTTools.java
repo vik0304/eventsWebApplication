@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import viktor.vasileski.eventsWebApplication.exceptions.UnauthorizedException;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JWTTools {
@@ -29,5 +30,13 @@ public class JWTTools {
         }catch(Exception e){
             throw new UnauthorizedException("Ci sono stati errori nella verifica del token! Effettua di nuovo il login");
         }
+    }
+
+    public UUID extractIdFromToken(String accessToken) {
+        return UUID.fromString(Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build()
+                .parseSignedClaims(accessToken)
+                .getPayload()
+                .getSubject());
     }
 }
