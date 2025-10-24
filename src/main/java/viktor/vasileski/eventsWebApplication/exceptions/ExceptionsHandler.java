@@ -29,7 +29,7 @@ public class ExceptionsHandler extends RuntimeException {
     @ExceptionHandler(Exception.class)
     public ErrorsDTO handleServerError(Exception ex) {
         ex.printStackTrace();
-        return new ErrorsDTO("C'è stato un errore generico, giuro che lo risolveremo presto!", LocalDateTime.now());
+        return new ErrorsDTO("Errore generico, verrà risolto presto.", LocalDateTime.now());
     }
 
     @ExceptionHandler(ValidationException.class)
