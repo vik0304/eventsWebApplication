@@ -7,6 +7,8 @@ import viktor.vasileski.eventsWebApplication.entities.User;
 import viktor.vasileski.eventsWebApplication.exceptions.NotFoundException;
 import viktor.vasileski.eventsWebApplication.repositories.UserRepository;
 
+import java.util.UUID;
+
 @Service
 @Slf4j
 public class UsersService {
@@ -15,5 +17,9 @@ public class UsersService {
 
     public User findByEmail(String email){
         return this.userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("L'utente con l'email " + email + " non è stato trovato"));
+    }
+
+    public User findById(UUID userId) {
+        return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 }
