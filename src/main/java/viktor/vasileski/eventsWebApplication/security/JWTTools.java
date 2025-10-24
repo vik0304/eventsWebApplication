@@ -39,4 +39,12 @@ public class JWTTools {
                 .getPayload()
                 .getSubject());
     }
+
+    public String extractToken(String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        throw new RuntimeException("Token non presente o non valido");
+    }
+
 }
