@@ -1,5 +1,6 @@
 package viktor.vasileski.eventsWebApplication.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     @ManyToMany(mappedBy = "participants")
+    @JsonIgnore
     private Set<Event> reservedEvents = new HashSet<>();
 
     public User(UserType userType, String name, String surname, String email, String password){
@@ -39,10 +41,6 @@ public class User implements UserDetails {
         this.password=password;
     }
 
-    public void addReservation(Event event){
-        reservedEvents.add(event);
-        event.getParticipants().add(this);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

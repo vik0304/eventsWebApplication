@@ -3,6 +3,7 @@ package viktor.vasileski.eventsWebApplication.payloads;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
 
 import java.time.LocalDate;
 

@@ -4,14 +4,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import viktor.vasileski.eventsWebApplication.entities.Event;
 import viktor.vasileski.eventsWebApplication.entities.User;
 import viktor.vasileski.eventsWebApplication.entities.UserType;
 import viktor.vasileski.eventsWebApplication.exceptions.BadRequestException;
 import viktor.vasileski.eventsWebApplication.exceptions.NotFoundException;
+import viktor.vasileski.eventsWebApplication.payloads.EventDTO;
 import viktor.vasileski.eventsWebApplication.payloads.NewUserDTO;
 import viktor.vasileski.eventsWebApplication.repositories.UserRepository;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -37,5 +41,17 @@ public class UsersService {
         User savedUser = userRepository.save(newUser);
         log.info("L'utente con id " + savedUser.getId() + " è stato salvato correttamente");
         return savedUser;
+    }
+
+    public Set<EventDTO> showReservations(User user){
+        User foundUser = findById(user.getId());
+        return foundUser.getReservedEvents().stream()
+                .map(event -> new EventDTO(
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getDate(),
+                        event.getPlace(),
+                        event.getNMax()
+                )).collect(Collectors.toSet());
     }
 }
