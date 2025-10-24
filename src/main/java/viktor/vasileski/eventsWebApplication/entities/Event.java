@@ -45,6 +45,6 @@ public class Event {
 
     public void addParticipant(User user){
         participants.add(user);
-        user.getReservedEvent().add(this);
+        user.getReservedEvents().add(this);
     }
 }

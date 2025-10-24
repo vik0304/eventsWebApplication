@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue
@@ -27,7 +28,7 @@ public class User {
     private String email;
     private String password;
     @ManyToMany(mappedBy = "participants")
-    private Set<Event> reservedEvent = new HashSet<>();
+    private Set<Event> reservedEvents = new HashSet<>();
 
     public User(UserType userType, String name, String surname, String email, String password){
         this.userType=userType;
@@ -38,7 +39,7 @@ public class User {
     }
 
     public void addReservation(Event event){
-        reservedEvent.add(event);
+        reservedEvents.add(event);
         event.getParticipants().add(this);
     }
 }
